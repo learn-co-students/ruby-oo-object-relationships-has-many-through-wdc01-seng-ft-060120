@@ -13,5 +13,27 @@ class Waiter
     def self.all
       @@all
     end
+
+    def new_meal(customer,total,tip=0)
+        Meal.new(self,customer,total,tip)
+    end
+
+    def meals
+        Meal.all.select{|meal|meal.waiter==self}
+    end
+    
+    def best_tipper
+        max_tip = 0
+        max_tip_from = nil
+
+        self.meals.each do |meal|
+            if meal.tip >= max_tip
+                max_tip = meal.tip
+                max_tip_from = meal.customer
+            end
+        end
+
+        return max_tip_from
+    end
    
 end
